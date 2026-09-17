@@ -1,0 +1,131 @@
+{
+  "writes": {
+    "tuple_keys": [
+      {
+        "user": "user:admin-1",
+        "relation": "admin",
+        "object": "organization:my-homes"
+      },
+      {
+        "user": "user:admin-2",
+        "relation": "admin",
+        "object": "organization:green-builders"
+      },
+      {
+        "user": "user:viewer-1",
+        "relation": "member",
+        "object": "organization:my-homes"
+      },
+      {
+        "user": "agent:create-agent-1",
+        "relation": "assigned_agent",
+        "object": "organization:my-homes"
+      },
+      {
+        "user": "agent:create-agent-2",
+        "relation": "assigned_agent",
+        "object": "organization:green-builders"
+      },
+      {
+        "user": "agent:read-agent-1",
+        "relation": "assigned_agent",
+        "object": "organization:my-homes"
+      },
+      {
+        "user": "agent:read-agent-2",
+        "relation": "assigned_agent",
+        "object": "organization:my-homes"
+      },
+      {
+        "user": "user:admin-1",
+        "relation": "owner",
+        "object": "agent:create-agent-1"
+      },
+      {
+        "user": "organization:my-homes",
+        "relation": "organization",
+        "object": "agent:create-agent-1"
+      },
+      {
+        "user": "user:admin-2",
+        "relation": "owner",
+        "object": "agent:create-agent-2"
+      },
+      {
+        "user": "organization:green-builders",
+        "relation": "organization",
+        "object": "agent:create-agent-2"
+      },
+      {
+        "user": "agent:create-agent-1",
+        "relation": "executor",
+        "object": "tool:create-project"
+      },
+      {
+        "user": "agent:create-agent-2",
+        "relation": "executor",
+        "object": "tool:create-project"
+      },
+      {
+        "user": "agent:read-agent-1",
+        "relation": "executor",
+        "object": "tool:read-project"
+      },
+      {
+        "user": "agent:read-agent-2",
+        "relation": "executor",
+        "object": "tool:read-project"
+      },
+      {
+        "user": "organization:my-homes",
+        "relation": "organization",
+        "object": "project:sunrise-towers"
+      },
+      {
+        "user": "organization:my-homes",
+        "relation": "organization",
+        "object": "project:lake-view"
+      },
+      {
+        "user": "agent:create-agent-1",
+        "relation": "creator",
+        "object": "project:sunrise-towers"
+      },
+      {
+        "user": "agent:create-agent-1",
+        "relation": "creator",
+        "object": "project:lake-view"
+      },
+      {
+        "user": "agent:read-agent-1",
+        "relation": "viewer",
+        "object": "project:sunrise-towers"
+      },
+      {
+        "user": "agent:read-agent-2",
+        "relation": "viewer",
+        "object": "project:lake-view"
+      },
+      {
+        "user": "agent:create-agent-1",
+        "relation": "project_creator",
+        "object": "organization:my-homes"
+      },
+      {
+        "user": "agent:create-agent-2",
+        "relation": "project_creator",
+        "object": "organization:green-builders"
+      },
+      {
+        "user": "organization:green-builders",
+        "relation": "organization",
+        "object": "project:green-heights"
+      },
+      {
+        "user": "user:viewer-1",
+        "relation": "viewer",
+        "object": "project:sunrise-towers"
+      }
+    ]
+  }
+}

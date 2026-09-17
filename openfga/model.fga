@@ -1,0 +1,35 @@
+model
+  schema 1.1
+
+type user
+
+type organization
+  relations
+    define admin: [user]
+    define member: [user]
+    define assigned_agent: [agent]
+    define project_creator: [agent]
+    define can_view: admin or member
+    define can_register_agent: admin
+    define can_create_project: admin or (project_creator and assigned_agent)
+
+type agent
+  relations
+    define owner: [user]
+    define organization: [organization]
+    define can_manage: owner and admin from organization
+    define can_use: can_manage
+
+type tool
+  relations
+    define executor: [agent]
+    define can_execute: executor
+
+type project
+  relations
+    define organization: [organization]
+    define creator: [agent, user]
+    define viewer: [agent, user]
+    define editor: [agent]
+    define can_view: admin from organization or ((creator or viewer or editor) and assigned_agent from organization) or (viewer and member from organization)
+    define can_update: admin from organization or ((creator or editor) and assigned_agent from organization)

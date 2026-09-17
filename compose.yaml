@@ -1,0 +1,55 @@
+name: openfga-agent-demo
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: openfga-agent-demo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_OPENFGA_DB:-openfga}
+    ports:
+      - "55432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/01-init-app-db.sql:/docker-entrypoint-initdb.d/01-init-app-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  openfga-migrate:
+    image: openfga/openfga:v1.20.0
+    container_name: openfga-agent-demo-migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: migrate
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_OPENFGA_DB:-openfga}?sslmode=disable
+    restart: "no"
+
+  openfga:
+    image: openfga/openfga:v1.20.0
+    container_name: openfga-agent-demo-openfga
+    depends_on:
+      openfga-migrate:
+        condition: service_completed_successfully
+    command: run
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_OPENFGA_DB:-openfga}?sslmode=disable
+      OPENFGA_LOG_FORMAT: json
+      OPENFGA_PLAYGROUND_ENABLED: "true"
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "3000:3000"
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+

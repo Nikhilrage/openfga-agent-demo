@@ -1,0 +1,47 @@
+{
+  "name": "openfga-agent-demo",
+  "description": "Local OpenFGA authorization demo for MCP agents with project-level read, create and update permissions, a platform UI, and a live relationship graph.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "openfga:bootstrap": "node scripts/bootstrap-openfga.mjs",
+    "openfga:check": "node scripts/check-openfga-demo.mjs",
+    "db:setup": "node scripts/setup-app-db.mjs",
+    "backend:dev": "node --watch backend/src/server.mjs",
+    "backend:start": "node backend/src/server.mjs",
+    "setup": "node scripts/setup-demo.mjs",
+    "backend:test": "node scripts/test-backend.mjs",
+    "mcp:dev": "node --watch mcp-server/src/server.mjs",
+    "mcp:start": "node mcp-server/src/server.mjs",
+    "mcp:test": "node scripts/test-mcp.mjs",
+    "client:dev": "vite mcp-client --config mcp-client/vite.config.js",
+    "client:build": "vite build mcp-client --config mcp-client/vite.config.js",
+    "platform:dev": "vite platform-app --config platform-app/vite.config.js",
+    "platform:build": "vite build platform-app --config platform-app/vite.config.js",
+    "dev": "concurrently -k -n BACKEND,MCP,PLATFORM,CLIENT -c blue,magenta,green,cyan \"npm:backend:dev\" \"npm:mcp:dev\" \"npm:platform:dev\" \"npm:client:dev\"",
+    "demo:start": "npm run setup && npm run dev",
+    "demo:reset": "node scripts/reset-demo.mjs",
+    "demo:verify": "npm run openfga:check && npm run backend:test && npm run mcp:test && npm run platform:build && npm run client:build",
+    "migrate": "node scripts/migrate-capabilities.mjs",
+    "start": "npm run migrate && npm run dev",
+    "platform:test": "playwright test",
+    "platform:verify": "npm run backend:test && npm run platform:build && npm run platform:test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "vite": "^8.3.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "concurrently": "^10.0.5"
+  }
+}
