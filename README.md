@@ -1,4 +1,4 @@
-# Northstar — OpenFGA Agent Demo
+#  OpenFGA Agent Demo
 
 A local, hands-on demonstration of fine-grained authorization for MCP agents using OpenFGA, with project-level permissions and a live relationship graph.
 
